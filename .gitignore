@@ -1,0 +1,8 @@
+# generated class files and some resourse
+target/
+.vscode/
+
+# exported file
+*.jar
+*.log
+*.zip
