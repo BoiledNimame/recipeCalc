@@ -2,11 +2,11 @@ package recipecalc.recipe;
 
 public class Item {
     public final String id;
-    public final long value;
-    
-    public Item(String id, long value) {
+    public final long quantity;
+
+    public Item(String id, long quantity) {
         this.id = id;
-        this.value = value;
+        this.quantity = quantity;
     }
     
     public boolean equals(Item item) {
