@@ -33,8 +33,8 @@ public class LinkedRecipeNode {
             case Gas:
                 display = name.concat(" ").concat(String.valueOf(requiredQuantity)).concat("mb");
                 break;
-        
             default:
+                display = name.concat(" ").concat("x").concat(String.valueOf(requiredQuantity));
                 break;
         }
         uuid = UUID.randomUUID();
