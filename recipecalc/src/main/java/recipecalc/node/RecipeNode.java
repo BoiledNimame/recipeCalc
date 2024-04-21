@@ -2,12 +2,14 @@ package recipecalc.node;
 
 public class RecipeNode {
 
+    public final String name;
     public final String[] parent;
     public final Node[] ingredientNodes;
     public final Node[] resutNodes;
     public final long requiredQuantity;
 
-    public RecipeNode(String[] parent, Node[] ingredients, Node[] result, long quantity) {
+    public RecipeNode(String name, String[] parent, Node[] ingredients, Node[] result, long quantity) {
+        this.name = name;
         this.parent = parent;
         ingredientNodes = ingredients;
         resutNodes = result;
