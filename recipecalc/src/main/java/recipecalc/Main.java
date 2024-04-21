@@ -1,7 +1,10 @@
 package recipecalc;
 
+import recipecalc.calc.Calculator;
+import recipecalc.loader.YamlLoader;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Calculator.solveRecipe(YamlLoader.loadAsMap(), args);
     }
 }
