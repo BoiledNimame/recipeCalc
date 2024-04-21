@@ -27,7 +27,7 @@ public class YamlParser {
 
             final Node[] recipeNodes = getRecipe(currentMap);
 
-            final Node[] resultNodes = getResult(currentMap);
+            final Node[] resultNodes = getResult(map, currentMap);
 
             nodes[i] = new RecipeNode(name, recipeNodes, resultNodes);
         }
@@ -71,7 +71,7 @@ public class YamlParser {
         }
     }
 
-    private static Node[] getResult(Map<String, Object> map) {
+    private static Node[] getResult(Map<String, Object> parentMap, Map<String, Object> map) {
         if (map.containsKey(result)) {
 
             @SuppressWarnings("unchecked")
@@ -81,7 +81,14 @@ public class YamlParser {
             final Node[] resultNodes = new Node[resultSize];
             for (int i = 0; i < resultSize; i++) {
                 final Map<String, Integer> currentItem = results.get(i);
-                final String currentItemKeyFirst = currentItem.keySet().toArray(new String[]{})[0];
+                @SuppressWarnings("unchecked")
+                final Map<String, Object> targetItemMap = ((Map<String, Object>)parentMap.get(currentItem.keySet().toArray(new String[]{})[0]));
+                String currentItemKeyFirst;
+                if (targetItemMap.containsKey(display)) {
+                    currentItemKeyFirst = targetItemMap.get(display).toString();
+                } else {
+                    currentItemKeyFirst = currentItem.keySet().toArray(new String[]{})[0];
+                }
                 resultNodes[i] = nodeBuilder(map, currentItemKeyFirst, currentItem.get(currentItemKeyFirst));
             }
             return resultNodes;
