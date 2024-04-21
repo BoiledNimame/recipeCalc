@@ -26,7 +26,7 @@
     - 4k: 1
 
 1k:
-  display: 4k ME Storage Component
+  display: 1k ME Storage Component
   recipe:
     - [R,   PCQ,   R]
     - [PCQ,  L,  PCQ]
