@@ -1,7 +1,3 @@
-final:
-  item: 64k
-  value: 10
-
 64k:
   display: 64k ME Storage Component
   recipe:
