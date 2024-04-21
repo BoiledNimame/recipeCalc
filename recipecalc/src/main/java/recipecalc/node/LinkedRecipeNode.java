@@ -22,10 +22,16 @@ public class LinkedRecipeNode {
     public LinkedRecipeNode(RecipeNode targetRecipe, long requiredQuantity) {
         depth = 0;
         name = targetRecipe.name;
-        final Node targetNode = Arrays.stream(targetRecipe.resutNodes).filter()
+        final Node targetNode = Arrays.stream(targetRecipe.resutNodes).filter(f -> f.id.equals(name)).findFirst().orElseThrow(IllegalArgumentException::new);
         switch (targetRecipe.resutNodes[0].type) {
-            case value:
-                
+            case Item:
+                display = name.concat(" ").concat("x").concat(String.valueOf(requiredQuantity));
+                break;
+            case Liquid:
+                display = name.concat(" ").concat(String.valueOf(requiredQuantity)).concat("mb");
+                break;
+            case Gas:
+                display = name.concat(" ").concat(String.valueOf(requiredQuantity)).concat("mb");
                 break;
         
             default:
