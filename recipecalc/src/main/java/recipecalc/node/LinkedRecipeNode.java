@@ -23,20 +23,7 @@ public class LinkedRecipeNode {
         depth = 0;
         name = targetRecipe.name;
         final Node targetNode = Arrays.stream(targetRecipe.resutNodes).filter(f -> f.id.equals(name)).findFirst().orElseThrow(IllegalArgumentException::new);
-        switch (targetRecipe.resutNodes[0].type) {
-            case Item:
-                display = name.concat(" ").concat("x").concat(String.valueOf(requiredQuantity));
-                break;
-            case Liquid:
-                display = name.concat(" ").concat(String.valueOf(requiredQuantity)).concat("mb");
-                break;
-            case Gas:
-                display = name.concat(" ").concat(String.valueOf(requiredQuantity)).concat("mb");
-                break;
-            default:
-                display = name.concat(" ").concat("x").concat(String.valueOf(requiredQuantity));
-                break;
-        }
+        display = displayBuilder(name, targetRecipe.resutNodes[0], requiredQuantity);
         uuid = UUID.randomUUID();
         pos = RecipePos.HEAD;
         parent = null;
@@ -49,6 +36,25 @@ public class LinkedRecipeNode {
     public LinkedRecipeNode(int depth, String targetName, long requiredQuantity, LinkedRecipeNode parent) {
         uuid = UUID.randomUUID();
         pos = RecipePos.BODY;
+    }
+
+    private static String displayBuilder(String baseName, Node target, long quantity) {
+        String targetDisplay;
+        switch (target.type) {
+            case Item:
+                targetDisplay = baseName.concat(" ").concat("x").concat(String.valueOf(quantity));
+                break;
+            case Liquid:
+                targetDisplay = baseName.concat(" ").concat(String.valueOf(quantity)).concat("mb");
+                break;
+            case Gas:
+                targetDisplay = baseName.concat(" ").concat(String.valueOf(quantity)).concat("mb");
+                break;
+            default:
+                targetDisplay = baseName.concat(" ").concat("x").concat(String.valueOf(quantity));
+                break;
+        }
+        return targetDisplay;
     }
 
     public boolean equals(LinkedRecipeNode node) {
