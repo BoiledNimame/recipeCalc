@@ -1,47 +1,45 @@
 package recipecalc.node;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class LinkedRecipeNode {
+    public final int depth;
     public final String name;
+    public final String display;
+    public final UUID uuid;
     public final RecipePos pos;
-    public final String[] parent;
-    public final Node[] ingredientNodes;
-    public final Node[] resutNodes;
+    public final LinkedRecipeNode parent;
+    public final LinkedRecipeNode[] child;
+    public final LinkedRecipeNode[] resutNodes;
+    public final RecipeNode[] allRecipe;
     public final long requiredQuantity;
+    public final Node[] consumableIngredients;
 
-    public LinkedRecipeNode(String name, String[] parent, Node[] ingredients, Node[] result, long quantity) {
-        this.name = name;
-        if (Arrays.asList(result).isEmpty()) {
-            pos = RecipePos.TAIL;
-        } else if (Arrays.asList(parent).isEmpty()) {
-            pos = RecipePos.HEAD;
-        } else {
-            pos = RecipePos.BODY;
+    /**
+     * make LinkedRecipeNode as HEAD
+     */
+    public LinkedRecipeNode(RecipeNode targetRecipe, long requiredQuantity) {
+        depth = 0;
+        name = targetRecipe.name;
+        final Node targetNode = Arrays.stream(targetRecipe.resutNodes).filter()
+        switch (targetRecipe.resutNodes[0].type) {
+            case value:
+                
+                break;
+        
+            default:
+                break;
         }
-        this.parent = parent;
-        ingredientNodes = ingredients;
-        resutNodes = result;
-        requiredQuantity = quantity;
+        uuid = UUID.randomUUID();
+    }
+
+    public LinkedRecipeNode(int depth, String targetName, long requiredQuantity, LinkedRecipeNode parent) {
+        uuid = UUID.randomUUID();
     }
 
     public boolean equals(LinkedRecipeNode node) {
-        final int selfLength = this.parent.length;
-        final int targetLength = node.parent.length;
-        if (selfLength==targetLength && selfLength!=0 ) {
-            int match = 0;
-            for (int i = 0; i < selfLength; i++) {
-                if (this.parent[i].equals(node.parent[i])) {
-                    match++;
-                    if (match==selfLength) {
-                        return true;
-                    }
-                } else {
-                    return false;
-                }
-            }
-        }
-        return false;
+        return this.uuid.equals(node.uuid);
     }
 
     public enum RecipePos {
