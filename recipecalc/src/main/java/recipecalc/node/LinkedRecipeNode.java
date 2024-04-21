@@ -1,7 +1,10 @@
 package recipecalc.node;
 
+import java.util.Arrays;
+
 public class LinkedRecipeNode {
     public final String name;
+    public final RecipePos pos;
     public final String[] parent;
     public final Node[] ingredientNodes;
     public final Node[] resutNodes;
@@ -9,6 +12,13 @@ public class LinkedRecipeNode {
 
     public LinkedRecipeNode(String name, String[] parent, Node[] ingredients, Node[] result, long quantity) {
         this.name = name;
+        if (Arrays.asList(result).isEmpty()) {
+            pos = RecipePos.TAIL;
+        } else if (Arrays.asList(parent).isEmpty()) {
+            pos = RecipePos.HEAD;
+        } else {
+            pos = RecipePos.BODY;
+        }
         this.parent = parent;
         ingredientNodes = ingredients;
         resutNodes = result;
@@ -32,5 +42,10 @@ public class LinkedRecipeNode {
             }
         }
         return false;
+    }
+
+    public enum RecipePos {
+        HEAD,BODY,TAIL;
+        RecipePos() {}
     }
 }
