@@ -1,0 +1,147 @@
+final:
+  item: 64k
+  value: 10
+
+64k:
+  display: 64k ME Storage Component
+  recipe:
+    - [G,   E,   G]
+    - [16k, Q, 16k]
+    - [G,  16k,  G]
+  result:
+    - 64k: 1
+
+16k:
+  display: 16k ME Storage Component
+  recipe:
+    - [G,  E,  G]
+    - [4k, Q, 4k]
+    - [G,  4k, G]
+  result:
+    - 16k: 1
+
+4k:
+  display: 4k ME Storage Component
+  recipe:
+    - [R,  C,  R]
+    - [1k, Q, 1k]
+    - [R,  1k, R]
+  result:
+    - 4k: 1
+
+1k:
+  display: 4k ME Storage Component
+  recipe:
+    - [R,   PCQ,   R]
+    - [PCQ,  L,  PCQ]
+    - [R,   PCQ,   R]
+  result:
+    - 1k: 1
+
+PCQ:
+  display: Pure Certus Quartz Crystal
+  recipe:
+    - [CQS]
+  result: 
+    - PCQ: 1
+
+CQS:
+  display: Certus Quartz Seed
+  recipe:
+    - [S, CQD]
+  result:
+    - CQS: 2
+
+CQD:
+  display: Certus Quartz Dust
+  recipe:
+    - [CQ]
+  result:
+    - CQD: 1
+
+CQ:
+  display: Certus Quartz
+
+Sand:
+  display: Sand
+
+L:
+  display: Logic Processor
+  recipe:
+    - [PLC, R, PS]
+  result:
+    - L: 1
+
+PLC:
+  display: Printed Logic Circuit
+  recipe:
+    - [GI]
+  result:
+    - PLC: 1
+
+GI:
+  display: Gold Ingot
+
+PS:
+  display: Printed Silicon
+  recipe:
+    - [Silicon]
+  result:
+    - PS: 1
+
+Silicon:
+  display: Silicon
+  recipe:
+    - [Sand]
+  result:
+    - Silicon: 1
+
+C:
+  display: Calculation Processor
+  recipe:
+    - [PCP, R, PS]
+  result:
+    - C: 1
+
+PCC:
+  display: Printed Calculation Circuit
+  recipe:
+    - [PCQ]
+  result:
+    - PCC: 1
+
+E:
+  display: Engineering Processor
+  recipe:
+    - [PEC, R, PS]
+  result:
+    - E: 1
+
+PEC:
+  display: Printed Engineering Circuit
+  recipe:
+    - [Diamond]
+  result:
+    - PEC: 1
+
+Diamond:
+  display: Diamond
+
+G:
+  display: GlowStone Dust
+
+Q:
+  display: Quartz Glass
+  recipe:
+    - [CQD,  Glass,  CQD]
+    - [Glass, CQD, Glass]
+    - [CQD,  Glass,  CQD]
+  result:
+    - Q: 4
+
+Glass:
+  display: Glass
+  recipe:
+    - [Sand]
+  result:
+    - Glass: 1
