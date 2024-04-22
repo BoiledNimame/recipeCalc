@@ -27,5 +27,6 @@ public class Calculator {
 
         RecipeNode[] recipes = YamlParser.parseToRecipeNode(map);
         LinkedNode headNode = NodeLinker.LinkNodeFromProblem(recipes, problemName, problemQuantity);
+        System.out.println(headNode); // TODO ツリー状に展開+最終リソースの要求数
     }
 }
