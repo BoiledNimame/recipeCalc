@@ -2,27 +2,29 @@ package recipecalc.node;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class LinkedRecipeNode {
+public class LinkedNode {
     public final int depth;
     public final String name;
     public final String display;
     public final UUID uuid;
     public final RecipePos pos;
-    public final LinkedRecipeNode parent;
-    public final LinkedRecipeNode[] child;
+    public final LinkedNode parent;
+    public final List<LinkedNode> child;
     public final Node[] resultNodes;
-    public final long requiredQuantity;
+    public final Map<String, Integer> consumableNode;
+    public final long craftCount;
 
     private static final Map<String, SimpleImmutableEntry<Node[], Node[]>> registedRecipes = new HashMap<>();
 
     /**
-     * make LinkedRecipeNode as HEAD
+     * make LinkedNode as HEAD
      */
-    public LinkedRecipeNode(RecipeNode targetRecipe, long requiredQuantity, RecipeNode[] allRecipe) {
+    public LinkedNode(RecipeNode targetRecipe, long requiredQuantity, RecipeNode[] allRecipe) {
         recipeRegister(allRecipe);
         depth = 0;
         name = targetRecipe.name;
@@ -32,15 +34,16 @@ public class LinkedRecipeNode {
         display = displayBuilder(name, targetRecipe.resutNodes[0], requiredQuantity);
         uuid = UUID.randomUUID();
         pos = RecipePos.HEAD;
+        craftCount = NodeLinker.calcCraftCount(targetNode, requiredQuantity);
         parent = null;
-        child = targetRecipe.resutNodes; // TODO ここにコンストラクタ呼ぶ関数詰めて再帰的展開を行う
-        resultNodes = null; // TODO いらないかも?
+        resultNodes = NodeLinker.calcResult(targetRecipe, craftCount);
+        consumableNode = new HashMap<>();
+        child = NodeLinker.defineChild(this);
     }
 
-    /**
-     * Body and Tail's Constructor cannot call from other class 
-     */
-    private LinkedRecipeNode(int depth, String targetName, long requiredQuantity, LinkedRecipeNode parent) {
+    LinkedNode(RecipeNode targetRecipe, LinkedNode parent) {
+        depth = parent.depth+1;
+        name = targetRecipe.name;
         uuid = UUID.randomUUID();
         pos = RecipePos.BODY;
     }
@@ -70,7 +73,7 @@ public class LinkedRecipeNode {
         }
     }
 
-    public boolean equals(LinkedRecipeNode node) {
+    public boolean equals(LinkedNode node) {
         return this.uuid.equals(node.uuid);
     }
 

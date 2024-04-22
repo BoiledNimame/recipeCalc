@@ -3,7 +3,7 @@ package recipecalc.calc;
 import java.util.Map;
 
 import recipecalc.loader.YamlParser;
-import recipecalc.node.LinkedRecipeNode;
+import recipecalc.node.LinkedNode;
 import recipecalc.node.NodeLinker;
 import recipecalc.node.RecipeNode;
 
@@ -26,6 +26,6 @@ public class Calculator {
         }
 
         RecipeNode[] recipes = YamlParser.parseToRecipeNode(map);
-        LinkedRecipeNode headNode = NodeLinker.LinkNodeFromProblem(recipes, problemName, problemQuantity);
+        LinkedNode headNode = NodeLinker.LinkNodeFromProblem(recipes, problemName, problemQuantity);
     }
 }
