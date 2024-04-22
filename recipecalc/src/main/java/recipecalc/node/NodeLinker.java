@@ -14,7 +14,7 @@ public class NodeLinker {
         return (long) Math.ceil((double)requiredQuantity/(double)target.quantity);
     }
 
-    static Node[] calcResult(RecipeNode recipe, long craftCount) {
+    static Node[] defineResult(RecipeNode recipe, long craftCount) {
         return Arrays.stream(recipe.resutNodes)
                         .parallel()
                         .map(m -> new Node(m.id, m.type, m.quantity*craftCount))
@@ -22,7 +22,8 @@ public class NodeLinker {
     }
 
     static List<LinkedNode> defineChild(LinkedNode parent) {
-        // コンストラクタ呼ぶ
+        // TODO コンストラクタ呼ぶ
+        // TODO childはここで追加(ArrayListが初期化済み)
         return null;
     }
 }
