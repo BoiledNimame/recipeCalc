@@ -8,10 +8,4 @@ public class NodeLinker {
         final LinkedRecipeNode origin = new LinkedRecipeNode(initialRecipe, targetQuantity, recipes);
         return origin;
     }
-
-    static RecipeNode getRecipeNodeByName(RecipeNode[] recipes, String name) {
-        return Arrays.stream(recipes)
-                        .filter(f -> f.name.equals(name))
-                        .findFirst().get();
-    }
 }
