@@ -104,8 +104,12 @@ public class LinkedNode {
         return mappedRecipe;
     }
 
-    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOsFromProductName() {
-        return registedRecipes.containsKey(this.name) ? registedRecipes.get(this.name) : new SimpleImmutableEntry<>(new Node[0], new Node[0]);
+    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOs() {
+        return getRecipeIOsFromProductName(this.name);
+    }
+
+    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOsFromProductName(String name) {
+        return registedRecipes.containsKey(name) ? registedRecipes.get(name) : new SimpleImmutableEntry<>(new Node[0], new Node[0]);
     }
 
     public boolean equals(LinkedNode node) {
