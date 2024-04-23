@@ -17,16 +17,16 @@ public class LinkedNode {
     public final LinkedNode parent;
     public final List<LinkedNode> child;
     public final Node[] resultNodes;
-    public final Map<String, Integer> consumableNode;
+    public final Map<String, Long> consumableNode;
     public final long craftCount;
 
-    private static final Map<String, SimpleImmutableEntry<Node[], Node[]>> registedRecipes = new HashMap<>();
+    private final Map<String, SimpleImmutableEntry<Node[], Node[]>> registedRecipes;
 
     /**
      * make LinkedNode as HEAD
      */
     public LinkedNode(RecipeNode targetRecipe, long requiredQuantity, RecipeNode[] allRecipe) {
-        recipeRegister(allRecipe);
+        registedRecipes = recipeMapper(allRecipe);
         depth = 0;
         name = targetRecipe.name;
         final Node targetNode = Arrays.stream(targetRecipe.resutNodes)
@@ -39,10 +39,17 @@ public class LinkedNode {
         parent = null;
         resultNodes = NodeLinker.defineResult(targetRecipe, craftCount);
         consumableNode = new HashMap<>();
-        child = NodeLinker.defineChild(this);
+        final Node[] consumableByProduct = NodeLinker.getByProductFromResult(targetNode, resultNodes);
+        for (int i = 0; i < consumableByProduct.length; i++) {
+            consumableNode.put(consumableByProduct[i].id, consumableByProduct[i].quantity);
+        }
+        child = new ArrayList<>();
+        NodeLinker.defineChild(this);
     }
 
     LinkedNode(LinkedNode parent, RecipeNode targetRecipe, long craftCount) {
+        registedRecipes = parent.registedRecipes;
+        parent.child.add(this);
         depth = parent.depth+1;
         name = targetRecipe.name;
         display = displayBuilder(name, getNodeByName(name).type, craftCount);
@@ -53,13 +60,13 @@ public class LinkedNode {
             resultNodes = new Node[]{};
         } else {
             pos = RecipePos.BODY;
-            // TODO 再帰 ここがかなりの正念場だと思われる
             resultNodes = NodeLinker.defineResult(targetRecipe, craftCount);
         }
         this.craftCount = craftCount;
         this.parent = parent;
         consumableNode = parent.consumableNode;
         child = new ArrayList<>();
+        NodeLinker.defineChild(this);
     }
 
     private static String displayBuilder(String baseName, ResourceType type, long quantity) {
@@ -81,7 +88,7 @@ public class LinkedNode {
         return targetDisplay;
     }
 
-    private static Node getNodeByName(String name) {
+    public Node getNodeByName(String name) {
         return registedRecipes.entrySet().stream()
                                 .map(f -> Arrays.stream(f.getValue().getValue())
                                     .filter(g -> g.id.equals(name))
@@ -89,10 +96,16 @@ public class LinkedNode {
                                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
-    private static void recipeRegister(RecipeNode[] recipes) {
+    private Map<String, SimpleImmutableEntry<Node[], Node[]>> recipeMapper(RecipeNode[] recipes) {
+        final Map<String, SimpleImmutableEntry<Node[], Node[]>> mappedRecipe = new HashMap<>();
         for (int i = 0; i < recipes.length; i++) {
-            registedRecipes.put(recipes[i].name, new SimpleImmutableEntry<Node[],Node[]>(recipes[i].ingredientNodes, recipes[i].resutNodes));
+            mappedRecipe.put(recipes[i].name, new SimpleImmutableEntry<Node[],Node[]>(recipes[i].ingredientNodes, recipes[i].resutNodes));
         }
+        return mappedRecipe;
+    }
+
+    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOsFromProductName(String name) {
+        return registedRecipes.containsKey(name) ? registedRecipes.get(name) : new SimpleImmutableEntry<>(new Node[0], new Node[0]);
     }
 
     public boolean equals(LinkedNode node) {
