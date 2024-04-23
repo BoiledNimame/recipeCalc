@@ -1,7 +1,7 @@
 package recipecalc.node;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
-import java.util.List;
 
 public class NodeLinker {
     public static LinkedNode LinkNodeFromProblem(RecipeNode[] recipes, String targetName, int targetQuantity) {
@@ -15,15 +15,47 @@ public class NodeLinker {
     }
 
     static Node[] defineResult(RecipeNode recipe, long craftCount) {
-        return Arrays.stream(recipe.resutNodes)
+        return Arrays.stream(recipe.resultNodes)
                         .parallel()
                         .map(m -> new Node(m.id, m.type, m.quantity*craftCount))
-                        .toList().toArray(new Node[recipe.resutNodes.length]);
+                        .toList().toArray(new Node[recipe.resultNodes.length]);
     }
 
-    static List<LinkedNode> defineChild(LinkedNode parent) {
+    static Node[] defineResult(Node[] resultNodes, long craftCount) {
+        return Arrays.stream(resultNodes)
+                        .parallel()
+                        .map(m -> new Node(m.id, m.type, m.quantity*craftCount))
+                        .toList().toArray(new Node[resultNodes.length]);
+    }
+
+    static Node[] getByProductFromResult(Node mainProduct, Node[] result) {
+        return Arrays.stream(result).filter(r -> !r.id.equals(mainProduct.id)).toList().toArray(Node[]::new);
+    }
+
+    static void defineChild(LinkedNode parent) {
+        // TODO produce(consumableNode, Node[] produced)
+        // TODO consume(consumableNode, Node[] produced)
+        // TODO getConsumable(consumableNode);
         // TODO コンストラクタ呼ぶ
-        // TODO childはここで追加(ArrayListが初期化済み)
-        return null;
+        switch (parent.pos) {
+            case HEAD:
+                // parentの素材として要求してくるアイテムの内訳
+                final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getValue(), parent.craftCount);
+                for (int i = 0; i < parentsIngredient.length; i++) {
+                    if (Arrays.asList(parent.getRecipeIOsFromProductName(parentsIngredient[i].id).getKey()).isEmpty()) {
+                        // 内訳アイテムが末端(TAIL)になる場合(≒HEADの副産物として直接TAILが生成される場合)
+                    }
+                    parent.child.add(new LinkedNode(parent, null, 0));
+                }
+                break;
+
+            case BODY:
+
+                break;
+
+            case TAIL:
+                
+                break;
+        }
     }
 }
