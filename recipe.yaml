@@ -135,6 +135,9 @@ Q:
   result:
     - Q: 4
 
+R:
+  display: Redstone
+
 Glass:
   display: Glass
   recipe:
