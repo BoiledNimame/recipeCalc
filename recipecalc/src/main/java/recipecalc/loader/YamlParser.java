@@ -38,6 +38,7 @@ public class YamlParser {
         return map.containsKey(display) ? map.get("display").toString() : elseIf;
     }
 
+    // FIXME !! 材料(ingredient)のid がnullになってる！？
     private static Node[] getRecipe(Map<String, Object> map) {
         if (map.containsKey(recipe)) {
 
