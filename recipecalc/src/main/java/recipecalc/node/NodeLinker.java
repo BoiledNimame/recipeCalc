@@ -32,9 +32,6 @@ public class NodeLinker {
     }
 
     static Node[] getByProductFromResult(Node mainProduct, Node[] result) {
-        final List<Node> byProduct = new ArrayList<>();
-        byProduct.addAll(Arrays.stream(result)
-                                .filter(r -> !r.id.equals(mainProduct.id)).toList());
         final Node redundant = Arrays.stream(result)
                                         .filter(r -> r.id.equals(mainProduct.id))
                                         .map(r -> new Node(
@@ -43,11 +40,14 @@ public class NodeLinker {
                                             r.quantity-mainProduct.quantity))
                                         .findFirst().orElseThrow(IllegalStateException::new);
         if (0 <= redundant.quantity) {
+            final List<Node> byProduct = new ArrayList<>();
+            byProduct.addAll(Arrays.stream(result)
+                                .filter(r -> !r.id.equals(mainProduct.id)).toList());
             byProduct.add(redundant);
+            return byProduct.toArray(Node[]::new);
         } else {
             throw new IllegalArgumentException();
         }
-        return byProduct.toArray(Node[]::new);
     }
 
     static void defineChild(LinkedNode parent) {
