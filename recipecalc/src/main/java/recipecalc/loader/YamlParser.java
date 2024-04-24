@@ -120,7 +120,7 @@ public class YamlParser {
 
     public static String getDisplayFromKey(Map<String, Object> map, String key) {
         @SuppressWarnings("unchecked")
-        final String result = (String) ((Map<String, Object>) map.get(key)).get("display");
+        final String result = ((Map<String, Object>) map.get(key)).get("display").toString();
         return result;
     }
 }
