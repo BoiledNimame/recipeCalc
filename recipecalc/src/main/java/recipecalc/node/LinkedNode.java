@@ -92,7 +92,7 @@ public class LinkedNode {
 
     public Node getNodeByName(String name) {
         return registedRecipes.entrySet().stream()
-                                .map(f -> Arrays.stream(f.getValue().getValue())
+                                .map(f -> Arrays.stream(f.getValue().getKey())
                                     .filter(g -> g.id.equals(name))
                                     .findFirst().orElse(null)) // FIXME err このへんやばい
                                 .filter(p -> p!=null)
