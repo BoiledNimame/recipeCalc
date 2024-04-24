@@ -1,5 +1,6 @@
 # generated class files and some resourse
 target/
+.vscode/settings.json
 
 # exported file
 *.jar
