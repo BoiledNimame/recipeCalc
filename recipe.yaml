@@ -44,7 +44,7 @@ PCQ:
 CQS:
   display: Certus Quartz Seed
   recipe:
-    - [S, CQD]
+    - [Sand, CQD]
   result:
     - CQS: 2
 
