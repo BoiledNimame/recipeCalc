@@ -114,6 +114,26 @@ public class LinkedNode {
         return registedRecipes.containsKey(name) ? registedRecipes.get(name) : new SimpleImmutableEntry<>(new Node[0], new Node[0]);
     }
 
+    public Node consume(Node node) {
+        if (this.consumableNode.containsKey(node.id)) {
+            final long consumableQuantity = this.consumableNode.get(node.id).longValue();
+            if (consumableQuantity < node.quantity) {
+                this.consumableNode.remove(node.id);
+                return new Node(node.id, node.type, node.quantity - consumableQuantity);
+            } else if (consumableQuantity == node.quantity) {
+                this.consumableNode.remove(node.id);
+                return new Node(node.id, node.type, 0);
+            } else if (consumableQuantity > node.quantity) {
+                this.consumableNode.put(node.id, consumableQuantity - node.quantity);
+                return new Node(node.id, node.type, 0);
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } else {
+            return node;
+        }
+    }
+
     public boolean equals(LinkedNode node) {
         return this.uuid.equals(node.uuid);
     }
