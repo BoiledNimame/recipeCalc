@@ -83,13 +83,16 @@ public class YamlParser {
                 final Map<String, Integer> currentItem = results.get(i);
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> targetItemMap = ((Map<String, Object>)parentMap.get(currentItem.keySet().toArray(new String[]{})[0]));
+                String currentItemMapKey;
                 String currentItemKeyFirst;
                 if (targetItemMap.containsKey(display)) {
+                    currentItemMapKey = currentItem.keySet().toArray(new String[]{})[0];
                     currentItemKeyFirst = targetItemMap.get(display).toString();
                 } else {
                     currentItemKeyFirst = currentItem.keySet().toArray(new String[]{})[0];
+                    currentItemMapKey = currentItemKeyFirst;
                 }
-                resultNodes[i] = nodeBuilder(map, currentItemKeyFirst, currentItem.get(currentItemKeyFirst));
+                resultNodes[i] = nodeBuilder(map, currentItemKeyFirst, currentItem.get(currentItemMapKey));
             }
             return resultNodes;
         } else {
