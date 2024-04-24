@@ -3,6 +3,8 @@ package recipecalc.node;
 import java.util.Arrays;
 import java.util.List;
 
+import recipecalc.node.LinkedNode.RecipePos;
+
 public class NodeLinker {
     public static LinkedNode LinkNodeFromProblem(RecipeNode[] recipes, String targetName, int targetQuantity) {
         final RecipeNode initialRecipe = Arrays.stream(recipes).filter(f -> f.name.equals(targetName)).findFirst().orElseThrow(IllegalArgumentException::new);
@@ -45,30 +47,27 @@ public class NodeLinker {
     }
 
     static void defineChild(LinkedNode parent) {
-        // TODO produce(consumableNode, Node[] produced)
-        // TODO consume(consumableNode, Node[] produced)
-        // TODO getConsumable(consumableNode);
-        // TODO コンストラクタ呼ぶ
-        switch (parent.pos) {
-            case HEAD:
-                // parentの素材として要求してくるアイテムの内訳
-                final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
-                for (int i = 0; i < parentsIngredient.length; i++) {
-                    if (Util.arrayIsEmpty(parent.getRecipeIOsFromProductName(parentsIngredient[i].id).getKey())) {
-                        // 内訳アイテムが末端(TAIL)になる場合(≒HEADの副産物として直接TAILが生成される場合)
-                        
-                    }
-                    parent.child.add(new LinkedNode(parent, null, 0));
+        if (parent.pos.equals(RecipePos.HEAD) | parent.pos.equals(RecipePos.BODY)) {
+            // parentの素材として要求してくるアイテムの内訳
+            final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
+            SOLVE : for (int i = 0; i < parentsIngredient.length; i++) {
+                final Node subjectNode = parent.consume(parentsIngredient[i]);
+                if (subjectNode.quantity==0) {
+                    // もしconsumeしきったら次へ
+                    // またはdisplayに"消費"とした子Nodeを出すようにしても良い
+                    continue SOLVE;
                 }
-                break;
+                final RecipeNode target = new RecipeNode(
+                    subjectNode.id,
+                    parent.getRecipeIOsFromProductName(subjectNode.id).getKey(),
+                    parent.getRecipeIOsFromProductName(subjectNode.id).getValue());
+                final long count = calcCraftCount(parent.getNodeByName(subjectNode.id), subjectNode.quantity);
 
-            case BODY:
-
-                break;
-
-            case TAIL:
-                
-                break;
+                parent.child.add(new LinkedNode(parent, target, count));
+            }
+        } else {
+            // 呼ばれてはいけない
+            throw new UnsupportedOperationException();
         }
     }
 }
