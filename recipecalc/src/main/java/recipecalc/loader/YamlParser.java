@@ -25,7 +25,7 @@ public class YamlParser {
 
             final String name = getName(currentMap, currentKey);
 
-            final Node[] recipeNodes = getRecipe(currentMap);
+            final Node[] recipeNodes = getRecipe(map, currentMap);
 
             final Node[] resultNodes = getResult(map, currentMap);
 
@@ -38,7 +38,7 @@ public class YamlParser {
         return map.containsKey(display) ? map.get("display").toString() : elseIf;
     }
 
-    private static Node[] getRecipe(Map<String, Object> map) {
+    private static Node[] getRecipe(Map<String, Object> parentMap, Map<String, Object> map) {
         if (map.containsKey(recipe)) {
 
             @SuppressWarnings("unchecked")
@@ -58,10 +58,14 @@ public class YamlParser {
             }
 
             final int recipeItemSize = requireItems.size();
-            final String[] keys = requireItems.keySet().toArray(String[]::new);
+            final String[] keys = new String[recipeItemSize];
+            final String[] rawKeys = requireItems.keySet().toArray(String[]::new);
+            for (int i = 0; i < recipeItemSize; i++) {
+                keys[i] = getDisplayFromKey(parentMap, rawKeys[i]);
+            }
             final int[] values = new int[recipeItemSize];
             for (int i = 0; i < recipeItemSize; i++) {
-                values[i] = requireItems.get(keys[i]);
+                values[i] = requireItems.get(rawKeys[i]);
             }
 
             final Node[] nodes = new Node[recipeItemSize];
@@ -123,8 +127,14 @@ public class YamlParser {
     }
 
     public static String getDisplayFromKey(Map<String, Object> map, String key) {
-        @SuppressWarnings("unchecked")
-        final String result = ((Map<String, Object>) map.get(key)).get("display").toString();
-        return result;
+        try {
+            @SuppressWarnings("unchecked")
+            final String result = ((Map<String, Object>) map.get(key)).get(display).toString();
+            return result;
+        } catch (NullPointerException e) {
+            System.out.print("key: \"" + key +"\" is may not registed on recipe.yaml !");
+            System.exit(0);
+            throw new RuntimeException(e);
+        }
     }
 }
