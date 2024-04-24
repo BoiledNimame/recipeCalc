@@ -40,7 +40,7 @@ public class NodeLinker {
         switch (parent.pos) {
             case HEAD:
                 // parentの素材として要求してくるアイテムの内訳
-                final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getValue(), parent.craftCount);
+                final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
                 for (int i = 0; i < parentsIngredient.length; i++) {
                     if (Arrays.asList(parent.getRecipeIOsFromProductName(parentsIngredient[i].id).getKey()).isEmpty()) {
                         // 内訳アイテムが末端(TAIL)になる場合(≒HEADの副産物として直接TAILが生成される場合)
