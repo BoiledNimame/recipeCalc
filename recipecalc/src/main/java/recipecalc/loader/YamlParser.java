@@ -38,7 +38,6 @@ public class YamlParser {
         return map.containsKey(display) ? map.get("display").toString() : elseIf;
     }
 
-    // FIXME !! 材料(ingredient)のid がnullになってる！？
     private static Node[] getRecipe(Map<String, Object> map) {
         if (map.containsKey(recipe)) {
 
@@ -62,6 +61,9 @@ public class YamlParser {
             final String[] keys = new String[recipeItemSize];
             final int[] values = new int[recipeItemSize];
             final Node[] nodes = new Node[recipeItemSize];
+
+            // おいここなんもしてねえじゃねえか！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+
             for (int i = 0; i < recipeItemSize; i++) {
                 nodes[i] = nodeBuilder(map, keys[i], values[i]);
             }
