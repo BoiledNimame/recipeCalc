@@ -1,5 +1,6 @@
 package recipecalc.node;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,12 +32,15 @@ public class NodeLinker {
     }
 
     static Node[] getByProductFromResult(Node mainProduct, Node[] result) {
-        final List<Node> byProduct = Arrays.stream(result)
-                                        .filter(r -> !r.id.equals(mainProduct.id))
-                                        .toList();
+        final List<Node> byProduct = new ArrayList<>();
+        byProduct.addAll(Arrays.stream(result)
+                                .filter(r -> !r.id.equals(mainProduct.id)).toList());
         final Node redundant = Arrays.stream(result)
                                         .filter(r -> r.id.equals(mainProduct.id))
-                                        .map(r -> new Node(mainProduct.id, mainProduct.type, r.quantity-mainProduct.quantity))
+                                        .map(r -> new Node(
+                                            mainProduct.id,
+                                            mainProduct.type,
+                                            r.quantity-mainProduct.quantity))
                                         .findFirst().orElseThrow(IllegalStateException::new);
         if (0 <= redundant.quantity) {
             byProduct.add(redundant);
