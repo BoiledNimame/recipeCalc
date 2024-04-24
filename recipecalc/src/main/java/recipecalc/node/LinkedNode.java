@@ -94,7 +94,7 @@ public class LinkedNode {
         return registedRecipes.entrySet().stream()
                                 .map(f -> Arrays.stream(f.getValue().getValue())
                                     .filter(g -> g.id.equals(name))
-                                    .findFirst().orElseThrow(IllegalArgumentException::new))
+                                    .findFirst().orElseThrow(IllegalArgumentException::new)) // FIXME err
                                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
