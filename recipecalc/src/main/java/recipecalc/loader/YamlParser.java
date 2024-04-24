@@ -42,13 +42,13 @@ public class YamlParser {
         if (map.containsKey(recipe)) {
 
             @SuppressWarnings("unchecked")
-            final List<String[]> recipes = (List<String[]>) map.get(recipe);
+            final List<List<String>> recipes = (List<List<String>>) map.get(recipe);
             final Map<String, Integer> requireItems = new HashMap<>();
             
             for (int i = 0; i < recipes.size(); i++) {
-                final int currentLineLength = recipes.get(i).length;
+                final int currentLineLength = recipes.get(i).size(); // FIXME ?
                 for (int j = 0; j < currentLineLength; j++) {
-                    final String currentItem = recipes.get(i)[j];
+                    final String currentItem = recipes.get(i).get(j);
                     if (requireItems.containsKey(currentItem)) {
                         requireItems.put(currentItem, requireItems.get(currentItem)+1);
                     } else {
