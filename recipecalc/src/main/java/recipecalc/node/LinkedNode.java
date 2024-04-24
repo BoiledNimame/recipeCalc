@@ -98,6 +98,7 @@ public class LinkedNode {
                                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
+    // FIXME !! 材料(ingredient)のid がnullになってる！？
     private Map<String, SimpleImmutableEntry<Node[], Node[]>> recipeMapper(RecipeNode[] recipes) {
         final Map<String, SimpleImmutableEntry<Node[], Node[]>> mappedRecipe = new HashMap<>();
         for (int i = 0; i < recipes.length; i++) {
