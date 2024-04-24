@@ -31,7 +31,7 @@ public class YamlParser {
 
             nodes[i] = new RecipeNode(name, recipeNodes, resultNodes);
         }
-        return null;
+        return nodes;
     }
 
     private static String getName(Map<String, Object> map, String elseIf) {
