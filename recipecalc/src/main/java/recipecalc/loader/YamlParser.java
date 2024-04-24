@@ -46,7 +46,7 @@ public class YamlParser {
             final Map<String, Integer> requireItems = new HashMap<>();
             
             for (int i = 0; i < recipes.size(); i++) {
-                final int currentLineLength = recipes.get(i).size(); // FIXME ?
+                final int currentLineLength = recipes.get(i).size();
                 for (int j = 0; j < currentLineLength; j++) {
                     final String currentItem = recipes.get(i).get(j);
                     if (requireItems.containsKey(currentItem)) {
