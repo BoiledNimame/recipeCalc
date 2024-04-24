@@ -1,7 +1,7 @@
 package recipecalc.loader;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import recipecalc.node.Node;
@@ -43,7 +43,7 @@ public class YamlParser {
 
             @SuppressWarnings("unchecked")
             final List<List<String>> recipes = (List<List<String>>) map.get(recipe);
-            final Map<String, Integer> requireItems = new HashMap<>();
+            final Map<String, Integer> requireItems = new LinkedHashMap<>();
             
             for (int i = 0; i < recipes.size(); i++) {
                 final int currentLineLength = recipes.get(i).size();
@@ -58,12 +58,13 @@ public class YamlParser {
             }
 
             final int recipeItemSize = requireItems.size();
-            final String[] keys = new String[recipeItemSize];
+            final String[] keys = requireItems.keySet().toArray(String[]::new);
             final int[] values = new int[recipeItemSize];
+            for (int i = 0; i < recipeItemSize; i++) {
+                values[i] = requireItems.get(keys[i]);
+            }
+
             final Node[] nodes = new Node[recipeItemSize];
-
-            // おいここなんもしてねえじゃねえか！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-
             for (int i = 0; i < recipeItemSize; i++) {
                 nodes[i] = nodeBuilder(map, keys[i], values[i]);
             }
