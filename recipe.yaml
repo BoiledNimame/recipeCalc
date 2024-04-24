@@ -95,7 +95,7 @@ Silicon:
 C:
   display: Calculation Processor
   recipe:
-    - [PCP, R, PS]
+    - [PCC, R, PS]
   result:
     - C: 1
 
