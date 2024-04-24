@@ -1,7 +1,7 @@
 package recipecalc.node;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
+import java.util.List;
 
 public class NodeLinker {
     public static LinkedNode LinkNodeFromProblem(RecipeNode[] recipes, String targetName, int targetQuantity) {
@@ -29,7 +29,19 @@ public class NodeLinker {
     }
 
     static Node[] getByProductFromResult(Node mainProduct, Node[] result) {
-        return Arrays.stream(result).filter(r -> !r.id.equals(mainProduct.id)).toList().toArray(Node[]::new);
+        final List<Node> byProduct = Arrays.stream(result)
+                                        .filter(r -> !r.id.equals(mainProduct.id))
+                                        .toList();
+        final Node redundant = Arrays.stream(result)
+                                        .filter(r -> r.id.equals(mainProduct.id))
+                                        .map(r -> new Node(mainProduct.id, mainProduct.type, r.quantity-mainProduct.quantity))
+                                        .findFirst().orElseThrow(IllegalStateException::new);
+        if (0 <= redundant.quantity) {
+            byProduct.add(redundant);
+        } else {
+            throw new IllegalArgumentException();
+        }
+        return byProduct.toArray(Node[]::new);
     }
 
     static void defineChild(LinkedNode parent) {
@@ -42,8 +54,9 @@ public class NodeLinker {
                 // parentの素材として要求してくるアイテムの内訳
                 final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
                 for (int i = 0; i < parentsIngredient.length; i++) {
-                    if (Arrays.asList(parent.getRecipeIOsFromProductName(parentsIngredient[i].id).getKey()).isEmpty()) {
+                    if (Util.arrayIsEmpty(parent.getRecipeIOsFromProductName(parentsIngredient[i].id).getKey())) {
                         // 内訳アイテムが末端(TAIL)になる場合(≒HEADの副産物として直接TAILが生成される場合)
+                        
                     }
                     parent.child.add(new LinkedNode(parent, null, 0));
                 }
