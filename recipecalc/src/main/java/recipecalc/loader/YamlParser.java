@@ -81,18 +81,13 @@ public class YamlParser {
             final Node[] resultNodes = new Node[resultSize];
             for (int i = 0; i < resultSize; i++) {
                 final Map<String, Integer> currentItem = results.get(i);
+                final String currentItemKey = currentItem.keySet().toArray(new String[]{})[0];
                 @SuppressWarnings("unchecked")
-                final Map<String, Object> targetItemMap = ((Map<String, Object>)parentMap.get(currentItem.keySet().toArray(new String[]{})[0]));
-                String currentItemMapKey;
-                String currentItemKeyFirst;
-                if (targetItemMap.containsKey(display)) {
-                    currentItemMapKey = currentItem.keySet().toArray(new String[]{})[0];
-                    currentItemKeyFirst = targetItemMap.get(display).toString();
-                } else {
-                    currentItemKeyFirst = currentItem.keySet().toArray(new String[]{})[0];
-                    currentItemMapKey = currentItemKeyFirst;
-                }
-                resultNodes[i] = nodeBuilder(map, currentItemKeyFirst, currentItem.get(currentItemMapKey));
+                final Map<String, Object> targetItemMap = ((Map<String, Object>)parentMap.get(currentItemKey));
+                String currentItemKeyFirst = targetItemMap.containsKey(display)
+                                           ? targetItemMap.get(display).toString()
+                                           : currentItemKey;
+                resultNodes[i] = nodeBuilder(map, currentItemKeyFirst, currentItem.get(currentItemKey));
             }
             return resultNodes;
         } else {
