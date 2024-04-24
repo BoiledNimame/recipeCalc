@@ -66,7 +66,9 @@ public class LinkedNode {
         this.parent = parent;
         consumableNode = parent.consumableNode;
         child = new ArrayList<>();
-        NodeLinker.defineChild(this);
+        if (this.pos!=RecipePos.TAIL) {
+            NodeLinker.defineChild(this);
+        }
     }
 
     private static String displayBuilder(String baseName, ResourceType type, long quantity) {
