@@ -15,7 +15,7 @@ public class Calculator {
         if (problem.length!=0) {
             for (int i = 0; i < problem.length; i++) {
                 if (problem[i].split(":")[0].equals("-calc")) {
-                    problemName = problem[i].split(":")[1];
+                    problemName = YamlParser.getDisplayFromKey(map, problem[i].split(":")[1]);
                     problemQuantity = Integer.valueOf(problem[i].split(":")[2]);
                 } else {
                     throw new IllegalArgumentException("The jvm startup argument does not contain the calculation target.");
