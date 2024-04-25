@@ -35,7 +35,8 @@ public class Tree {
 
     private String buildPrefix(LinkedNode parent) {
         return parent.parent!=null
-             ? buildPrefix(parent.parent).concat(!parent.parent.child.get(parent.parent.child.size()-1).equals(parent)
+             ? buildPrefix(parent.parent).concat(
+              !parent.parent.child.get(parent.parent.child.size()-1).equals(parent)
               ? lines[0]
               : " ")
              : "";
