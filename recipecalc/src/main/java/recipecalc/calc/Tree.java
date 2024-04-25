@@ -17,7 +17,11 @@ public class Tree {
     private void branch(LinkedNode node) {
         // TODO beforeのdepthあるいはそれを利用したツリー構造化
         String prefix = node.depth!=before.depth
-                      ? Util.repeat(lines[0], node.depth - 1).concat(lines[1])
+                      ? !node.parent.child.isEmpty()
+                       ? !node.parent.child.get(node.parent.child.size()-1).equals(node)
+                        ? Util.repeat(lines[0], node.depth - 1).concat(lines[1])
+                        : Util.repeat(lines[0], node.depth - 1).concat(lines[3])
+                       : Util.repeat(lines[0], node.depth)
                       : Util.repeat(lines[0], node.depth);
         System.out.println(prefix.concat(node.display));
         before = node;
