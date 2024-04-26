@@ -81,6 +81,7 @@ public class NodeLinker {
                                   getTargetNode(target.resultNodes, subjectNode.id),
                                   subjectNode.quantity);
                 // 余剰登録
+                // FIXME resultがtargetでないものを含む場合それも登録
                 if (count!=subjectNode.quantity) {
                     final long diff = getTargetNode(target.resultNodes, subjectNode.id).quantity*count - subjectNode.quantity;
                     if (parent.consumableNode.containsKey(subjectNode.id)) {

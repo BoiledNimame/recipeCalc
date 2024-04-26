@@ -6,6 +6,7 @@ import recipecalc.node.LinkedNode;
 public class Tree {
     public static void printAsTree(LinkedNode origin) {
         (new Tree()).branch(origin);
+        // TODO 一次リソースの集計+print
     }
 
     private Tree() {}

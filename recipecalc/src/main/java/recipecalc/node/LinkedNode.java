@@ -53,6 +53,7 @@ public class LinkedNode {
         parent.child.add(this);
         depth = parent.depth+1;
         name = targetRecipe.name;
+        loopDetector(this);
         display = displayBuilder(name, getNodeByName(name).type,
                     Util.arrayIsEmpty(targetRecipe.ingredientNodes)
                     ? craftCount
@@ -72,6 +73,16 @@ public class LinkedNode {
         child = new ArrayList<>();
         if (this.pos!=RecipePos.TAIL) {
             NodeLinker.defineChild(this);
+        }
+    }
+
+    private void loopDetector(LinkedNode self) {
+        if (self.parent!=null) {
+            if (self.parent.name.equals(self.name)) {
+                throw new IllegalArgumentException("target has Invalid recipe, that recipe may causes infinity-loops. recipe name:".concat(self.name));
+            } else {
+                loopDetector(self.parent);
+            }
         }
     }
 
