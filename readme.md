@@ -2,22 +2,20 @@
 必要なレシピ全体ををrecipe.yamlに記述し, 作成対象をアプリケーションに起動引数として与える事で標準出力(System.out)へ レシピツリー/必要リソース/副産物 が出力されます.
 
 ## レシピ記述について
-Key :
-  display:
-  recipe:
-    - []
-    - ...
-  result:
-    - Key:
+Key :<br>
+  display:<br>
+  recipe:<br>
+    - []<br>
+    - ...<br>
+  result:<br>
+    - Key:<br>
 
-display : 文字列 -> 表示名です.
+display : `String` -> 表示名です.
 
 recipe : `List<Key[]>` -> "材料とするキー"の配列 の リストが格納されます.
 
-例えば:
-
-`    -  [A, B, C]`
-
+例えば:<br>
+`    -  [A, B, C]`<br>
 `    -  [B, B, C]`
 
 のように, クラフト・グリッドのような構造で記述できます.
