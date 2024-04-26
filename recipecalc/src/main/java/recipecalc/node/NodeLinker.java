@@ -66,26 +66,31 @@ public class NodeLinker {
                 final Node subjectNode = parent.consume(parentsIngredient[i]);
                 if (subjectNode.quantity==0) {
                     // もしconsumeしきったら次へ
-                    // またはdisplayに"消費"とした子Nodeを出すようにしても良い
                     continue SOLVE;
                 }
-                // FIXME ConsumableNodeに触れてない... "作りすぎ"の登録を
+
+                // 自身のidからレシピの再構築
                 final RecipeNode target = new RecipeNode(
                     subjectNode.id,
                     parent.getRecipeIOsFromProductName(subjectNode.id).getKey(),
                     parent.getRecipeIOsFromProductName(subjectNode.id).getValue());
-                final long count = Util.arrayIsEmpty(parent.getRecipeIOsFromProductName(subjectNode.id).getKey())
+                // 作成数計算(一次リソース(≒クラフト負荷の消費)なら作成数=要求数)
+                final long count = Util.arrayIsEmpty(target.ingredientNodes)
                                  ? subjectNode.quantity
-                                 : parent.getRecipeIOsFromProductName(subjectNode.id).getValue().length==1
-                                  ? parent.getRecipeIOsFromProductName(subjectNode.id).getValue()[0].quantity==1
-                                   ? subjectNode.quantity
-                                   : calcCraftCount(
-                                     parent.getRecipeIOsFromProductName(subjectNode.id).getValue()[0],
-                                     subjectNode.quantity)
-                                  : calcCraftCount(
-                                   getTargetNode(parent.getRecipeIOsFromProductName(subjectNode.id).getValue(), subjectNode.id),
-                                   subjectNode.quantity);
+                                 : calcCraftCount(
+                                  getTargetNode(target.resultNodes, subjectNode.id),
+                                  subjectNode.quantity);
+                // 余剰登録
+                if (count!=subjectNode.quantity) {
+                    final long diff = getTargetNode(target.resultNodes, subjectNode.id).quantity*count - subjectNode.quantity;
+                    if (parent.consumableNode.containsKey(subjectNode.id)) {
+                        parent.consumableNode.put(subjectNode.id, diff + parent.consumableNode.get(subjectNode.id));
+                    } else {
+                        parent.consumableNode.put(subjectNode.id, diff);
+                    }
+                }
 
+                // 再帰
                 new LinkedNode(parent, target, count);
             }
         } else {
