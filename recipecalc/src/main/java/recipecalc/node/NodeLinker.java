@@ -2,6 +2,7 @@ package recipecalc.node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -81,9 +82,12 @@ public class NodeLinker {
                                   getTargetNode(target.resultNodes, subjectNode.id),
                                   subjectNode.quantity);
                 // 余剰登録
-                final List<Node> byProduct = Arrays.stream(target.resultNodes)
+                @SuppressWarnings("unchecked")
+                final List<Node> byProduct = target.resultNodes.length!=1
+                                           ? Arrays.stream(target.resultNodes)
                                                     .filter(p -> !p.id.equals(subjectNode.id))
-                                                    .toList();
+                                                    .toList()
+                                           : Collections.EMPTY_LIST;
                 if (!byProduct.isEmpty()) {
                     for (Node node : byProduct) {
                         final long byProductQuantity = node.quantity*count;
