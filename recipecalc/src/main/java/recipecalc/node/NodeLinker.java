@@ -83,7 +83,7 @@ public class NodeLinker {
                                   subjectNode.quantity);
                 // 余剰登録
                 @SuppressWarnings("unchecked")
-                final List<Node> byProduct = target.resultNodes.length!=1
+                final List<Node> byProduct = target.resultNodes.length < 1
                                            ? Arrays.stream(target.resultNodes)
                                                     .filter(p -> !p.id.equals(subjectNode.id))
                                                     .toList()
