@@ -65,9 +65,8 @@ public class NodeLinker {
                     subjectNode.id,
                     parent.getRecipeIOsFromProductName(subjectNode.id).getKey(),
                     parent.getRecipeIOsFromProductName(subjectNode.id).getValue());
-                final long count = calcCraftCount(parent.getNodeByName(subjectNode.id), subjectNode.quantity);
 
-                new LinkedNode(parent, target, count);
+                new LinkedNode(parent, target, subjectNode.quantity);
             }
         } else {
             // 呼ばれてはいけない
