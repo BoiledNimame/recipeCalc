@@ -4,13 +4,17 @@ import recipecalc.Util;
 import recipecalc.node.LinkedNode;
 
 public class Tree {
-    final static String[] lines = new String[]{"│", "├", "─", "└"};
     public static void printAsTree(LinkedNode origin) {
         (new Tree()).branch(origin);
     }
 
-    private Tree() {
-    }
+    private Tree() {}
+    
+    final String LINE = "│";
+    final String BRANCH = "├";
+    final String END = "└";
+    final String SPACE = " ";
+    final String EMPTY = "";
 
     private void branch(LinkedNode node) {
         System.out.println(buildLine(node));
@@ -26,10 +30,10 @@ public class Tree {
         String prefix = node.parent!=null
                       ? !node.parent.child.isEmpty()
                        ? !node.parent.child.get(node.parent.child.size()-1).equals(node)
-                        ? buildPrefix(node.parent).concat(lines[1])
-                        : buildPrefix(node.parent).concat(lines[3])
-                       : Util.repeat(lines[0], node.depth)
-                      : Util.repeat(lines[0], node.depth);
+                        ? buildPrefix(node.parent).concat(BRANCH)
+                        : buildPrefix(node.parent).concat(END)
+                       : Util.repeat(LINE, node.depth)
+                      : Util.repeat(LINE, node.depth);
         return prefix.concat(node.display);
     }
 
@@ -37,8 +41,8 @@ public class Tree {
         return parent.parent!=null
              ? buildPrefix(parent.parent).concat(
               !parent.parent.child.get(parent.parent.child.size()-1).equals(parent)
-              ? lines[0]
-              : " ")
-             : "";
+              ? LINE
+              : SPACE)
+             : EMPTY;
     }
 }

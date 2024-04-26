@@ -50,7 +50,7 @@ public class NodeLinker {
         }
     }
 
-    static void defineChild(LinkedNode parent) { // FIXME 課題::Childが2回登録される場合がある. また, 数量もなんだかおかしい
+    static void defineChild(LinkedNode parent) { // FIXME 課題::数量がなんだかおかしい
         if (parent.pos.equals(RecipePos.HEAD) | parent.pos.equals(RecipePos.BODY)) {
             // parentの素材として要求してくるアイテムの内訳
             final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
