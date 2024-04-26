@@ -81,7 +81,19 @@ public class NodeLinker {
                                   getTargetNode(target.resultNodes, subjectNode.id),
                                   subjectNode.quantity);
                 // 余剰登録
-                // FIXME resultがtargetでないものを含む場合それも登録
+                final List<Node> byProduct = Arrays.stream(target.resultNodes)
+                                                    .filter(p -> !p.id.equals(subjectNode.id))
+                                                    .toList();
+                if (!byProduct.isEmpty()) {
+                    for (Node node : byProduct) {
+                        final long byProductQuantity = node.quantity*count;
+                        if (parent.consumableNode.containsKey(node.id)) {
+                            parent.consumableNode.put(node.id, byProductQuantity + parent.consumableNode.get(node.id));
+                        } else {
+                            parent.consumableNode.put(node.id, byProductQuantity);
+                        }
+                    }
+                }
                 if (count!=subjectNode.quantity) {
                     final long diff = getTargetNode(target.resultNodes, subjectNode.id).quantity*count - subjectNode.quantity;
                     if (parent.consumableNode.containsKey(subjectNode.id)) {
