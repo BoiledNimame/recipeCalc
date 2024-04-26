@@ -3,18 +3,26 @@ package recipecalc.node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import recipecalc.Util;
 import recipecalc.node.LinkedNode.RecipePos;
 
 public class NodeLinker {
     public static LinkedNode LinkNodeFromProblem(RecipeNode[] recipes, String targetName, int targetQuantity) {
-        final RecipeNode initialRecipe = Arrays.stream(recipes).filter(f -> f.name.equals(targetName)).findFirst().orElseThrow(IllegalArgumentException::new);
+        final RecipeNode initialRecipe = Arrays.stream(recipes).filter(f -> f.name.equals(targetName)).findFirst().orElseThrow(NoSuchElementException::new);
         final LinkedNode origin = new LinkedNode(initialRecipe, targetQuantity, recipes);
         return origin;
     }
 
     static long calcCraftCount(Node target, long requiredQuantity) {
         return (long) Math.ceil((double)requiredQuantity/(double)target.quantity);
+    }
+
+    static Node getTargetNode(Node[] pool, String id) {
+        return Arrays.stream(pool)
+                .filter(f -> f.id.equals(id))
+                .findFirst().orElseThrow(NoSuchElementException::new);
     }
 
     static Node[] defineResult(RecipeNode recipe, long craftCount) {
@@ -38,7 +46,7 @@ public class NodeLinker {
                                             mainProduct.id,
                                             mainProduct.type,
                                             r.quantity-mainProduct.quantity))
-                                        .findFirst().orElseThrow(IllegalStateException::new);
+                                        .findFirst().orElseThrow(NoSuchElementException::new);
         if (0 <= redundant.quantity) {
             final List<Node> byProduct = new ArrayList<>();
             byProduct.addAll(Arrays.stream(result)
@@ -65,8 +73,19 @@ public class NodeLinker {
                     subjectNode.id,
                     parent.getRecipeIOsFromProductName(subjectNode.id).getKey(),
                     parent.getRecipeIOsFromProductName(subjectNode.id).getValue());
+                final long count = Util.arrayIsEmpty(parent.getRecipeIOsFromProductName(subjectNode.id).getKey())
+                                 ? subjectNode.quantity
+                                 : parent.getRecipeIOsFromProductName(subjectNode.id).getValue().length==1
+                                  ? parent.getRecipeIOsFromProductName(subjectNode.id).getValue()[0].quantity==1
+                                   ? subjectNode.quantity
+                                   : calcCraftCount(
+                                     parent.getRecipeIOsFromProductName(subjectNode.id).getValue()[0],
+                                     subjectNode.quantity)
+                                  : calcCraftCount(
+                                   getTargetNode(parent.getRecipeIOsFromProductName(subjectNode.id).getValue(), subjectNode.id),
+                                   subjectNode.quantity);
 
-                new LinkedNode(parent, target, subjectNode.quantity);
+                new LinkedNode(parent, target, count);
             }
         } else {
             // 呼ばれてはいけない

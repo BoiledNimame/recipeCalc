@@ -32,9 +32,7 @@ public class LinkedNode {
         registedRecipes = recipeMapper(allRecipe);
         depth = 0;
         name = targetRecipe.name;
-        final Node targetNode = Arrays.stream(targetRecipe.resultNodes)
-                                        .filter(f -> f.id.equals(name))
-                                        .findFirst().orElseThrow(IllegalArgumentException::new);
+        final Node targetNode = NodeLinker.getTargetNode(targetRecipe.resultNodes, name);
         display = displayBuilder(name, targetNode.type, requiredQuantity);
         uuid = UUID.randomUUID();
         pos = RecipePos.HEAD;
@@ -55,7 +53,10 @@ public class LinkedNode {
         parent.child.add(this);
         depth = parent.depth+1;
         name = targetRecipe.name;
-        display = displayBuilder(name, getNodeByName(name).type, craftCount);
+        display = displayBuilder(name, getNodeByName(name).type,
+                    Util.arrayIsEmpty(getRecipeIOsFromProductName(name).getKey())
+                    ? craftCount
+                    : craftCount*NodeLinker.getTargetNode(getRecipeIOsFromProductName(name).getValue(), name).quantity);
         uuid = UUID.randomUUID();
         final boolean isTail = Util.arrayIsEmpty(targetRecipe.ingredientNodes) && Util.arrayIsEmpty(targetRecipe.resultNodes);
         if (isTail) {
