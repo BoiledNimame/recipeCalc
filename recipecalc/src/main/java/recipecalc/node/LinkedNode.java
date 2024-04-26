@@ -54,9 +54,9 @@ public class LinkedNode {
         depth = parent.depth+1;
         name = targetRecipe.name;
         display = displayBuilder(name, getNodeByName(name).type,
-                    Util.arrayIsEmpty(getRecipeIOsFromProductName(name).getKey())
+                    Util.arrayIsEmpty(targetRecipe.ingredientNodes)
                     ? craftCount
-                    : craftCount*NodeLinker.getTargetNode(getRecipeIOsFromProductName(name).getValue(), name).quantity);
+                    : craftCount*NodeLinker.getTargetNode(targetRecipe.resultNodes, name).quantity);
         uuid = UUID.randomUUID();
         final boolean isTail = Util.arrayIsEmpty(targetRecipe.ingredientNodes) && Util.arrayIsEmpty(targetRecipe.resultNodes);
         if (isTail) {
