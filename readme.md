@@ -36,7 +36,7 @@ recipe:
 result : `List<Pair<Key, Long>>`<br>
  -> 結果のリストを, キー:数量 で記述します.
 
-type : `item` or `liquid` or `gas`
+type : `item` or `liquid` or `gas`<br>
  -> 必須ではありません. ツリー表示や統計表示の際の個数表示がこの値によって変動します. 指定されていないまたは無効な値の場合はItemタイプまたはエラーになります.
 
 記述には一定のルールがあります.<br>
