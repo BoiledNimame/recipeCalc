@@ -58,7 +58,7 @@ public class NodeLinker {
         }
     }
 
-    static void defineChild(LinkedNode parent) { // FIXME 課題::数量がなんだかおかしい
+    static void defineChild(LinkedNode parent) {
         if (parent.pos.equals(RecipePos.HEAD) | parent.pos.equals(RecipePos.BODY)) {
             // parentの素材として要求してくるアイテムの内訳
             final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);
@@ -69,6 +69,7 @@ public class NodeLinker {
                     // またはdisplayに"消費"とした子Nodeを出すようにしても良い
                     continue SOLVE;
                 }
+                // FIXME ConsumableNodeに触れてない... "作りすぎ"の登録を
                 final RecipeNode target = new RecipeNode(
                     subjectNode.id,
                     parent.getRecipeIOsFromProductName(subjectNode.id).getKey(),
