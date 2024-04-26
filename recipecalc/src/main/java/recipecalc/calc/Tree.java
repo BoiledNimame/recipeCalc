@@ -9,14 +9,17 @@ import recipecalc.node.LinkedNode;
 
 public class Tree {
     public static void printAsTree(LinkedNode origin) {
-        Tree tree = new Tree();
-        tree.branch(origin);
+        Tree tree = new Tree(origin);
+        tree.branch();
         tree.printFirstResource();
-        tree.printByProduct(origin);
+        tree.printByProduct();
         // TODO 一次リソースの集計+print
     }
 
-    private Tree() { firstResource = new HashMap<>();}
+    private Tree(LinkedNode origin) {
+        this.origin = origin;
+        firstResource = new HashMap<>();
+    }
     
     final String LINE = "│";
     final String BRANCH = "├";
@@ -24,7 +27,13 @@ public class Tree {
     final String SPACE = " ";
     final String EMPTY = "";
 
+    private final LinkedNode origin;
     private final Map<String, Long> firstResource;
+
+    private void branch() {
+        System.out.println("Trees:");
+        branch(origin);
+    }
 
     private void branch(LinkedNode node) {
         System.out.println(buildLine(node));
@@ -72,7 +81,7 @@ public class Tree {
         }
     }
 
-    private void printByProduct(LinkedNode origin) {
+    private void printByProduct() {
         System.out.println("ByProducts:");
         for (Entry<String, Long> entry : origin.consumableNode.entrySet()) {
             if (!entry.getKey().equals(origin.name) && entry.getValue()!=0) {
