@@ -13,7 +13,6 @@ public class Tree {
         tree.branch();
         tree.printFirstResource();
         tree.printByProduct();
-        // TODO 一次リソースの集計+print
     }
 
     private Tree(LinkedNode origin) {
