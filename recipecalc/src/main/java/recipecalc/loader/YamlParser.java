@@ -92,6 +92,9 @@ public class YamlParser {
                 final String currentItemKey = currentItem.keySet().toArray(new String[]{})[0];
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> targetItemMap = ((Map<String, Object>)parentMap.get(currentItemKey));
+                if (targetItemMap==null) {
+                    throw new NullPointerException("Cannot Find recipe of result. Key in search:" + currentItemKey);
+                }
                 String currentItemKeyFirst = targetItemMap.containsKey(display)
                                            ? targetItemMap.get(display).toString()
                                            : currentItemKey;
