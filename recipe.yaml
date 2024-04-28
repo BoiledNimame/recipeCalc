@@ -1,3 +1,6 @@
+
+### example for Applied Energistics 2
+
 64k:
   display: 64k ME Storage Component
   recipe:
@@ -88,7 +91,7 @@ PS:
 Silicon:
   display: Silicon
   recipe:
-    - [Sand]
+    - [CQD]
   result:
     - Silicon: 1
 
@@ -144,3 +147,120 @@ Glass:
     - [Sand]
   result:
     - Glass: 1
+
+### example for RefinedStorage
+
+Qartz Enritched Iron:
+  display: Qartz Enritched Iron
+  recipe:
+    - [Iron Ingot,    Iron Ingot]
+    - [Iron Ingot, Nether Quartz]
+  result:
+    - Qartz Enritched Iron: 4
+
+Iron Ingot:
+  display: Iron Ingot
+
+Nether Quartz:
+  display: Nether Quartz
+
+Silicon(RS):
+  display: Silicon(RS)
+  recipe:
+    - [Nether Quartz]
+  result:
+    - Silicon(RS): 1
+
+Processor Binding:
+  display: Processor Binding
+  recipe:
+    - [String, Slime ball, String]
+  result:
+    - Processor Binding: 8
+
+String:
+  display: String
+
+Slime ball:
+  display: Slime ball
+
+Basic Processor:
+  display: Basic Processor
+  recipe:
+    - [Raw Basic Processor]
+  result:
+    - Basic Processor: 1
+
+Raw Basic Processor:
+  display: Raw Basic Processor
+  recipe:
+    - [Processor Binding, Iron Ingot]
+    - [Silicon(RS)      ,          R]
+  result:
+    - Raw Basic Processor: 1
+
+Improved Processor:
+  display: Improved Processor
+  recipe:
+    - [Raw Improved Processor]
+  result:
+    - Improved Processor: 1
+
+Raw Improved Processor:
+  display: Raw Improved Processor
+  recipe:
+    - [Processor Binding, GI]
+    - [Silicon(RS)      ,  R]
+  result:
+    - Raw Improved Processor: 1
+
+Advanced Processor:
+  display: Advanced Processor
+  recipe:
+    - [Raw Advanced Processor]
+  result:
+    - Advanced Processor: 1
+
+Raw Advanced Processor:
+  display: Raw Advanced Processor
+  recipe:
+    - [Processor Binding, Diamond]
+    - [Silicon(RS)      ,       R]
+  result:
+    - Raw Advanced Processor: 1
+
+1k Storage Part:
+  display: 1k Storage Part
+  recipe:
+    - [Silicon(RS) , Qartz Enritched Iron, Silicon(RS)]
+    - [Glass,                  R,                Glass]
+    - [Silicon(RS),          Glass,        Silicon(RS)]
+  result:
+    - 1k Storage Part: 1
+
+4k Storage Part:
+  display: 4k Storage Part
+  recipe:
+    - [Basic Processor, Qartz Enritched Iron, Basic Processor]
+    - [1k Storage Part,          R,           1k Storage Part]
+    - [Basic Processor,    1k Storage Part   ,Basic Processor]
+  result:
+    - 4k Storage Part: 1
+
+16k Storage Part:
+  display: 16k Storage Part
+  recipe:
+    - [Improved Processor, Qartz Enritched Iron, Improved Processor]
+    - [4k Storage Part,             R,              4k Storage Part]
+    - [Improved Processor,    4k Storage Part  , Improved Processor]
+  result:
+    - 16k Storage Part: 1
+
+64k_Storage_Part:
+  display: 64k Storage Part
+  recipe:
+    - [Advanced Processor, Qartz Enritched Iron, Advanced Processor]
+    - [16k Storage Part,            R,             16k Storage Part]
+    - [Advanced Processor,   16k Storage Part  , Advanced Processor]
+  result:
+    - 64k_Storage_Part: 1
