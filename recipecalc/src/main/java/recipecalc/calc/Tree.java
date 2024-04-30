@@ -48,12 +48,10 @@ public class Tree {
     }
 
     private String buildLine(LinkedNode node) {
-        String prefix = node.parent!=null
-                      ? !node.parent.child.isEmpty()
-                       ? !node.parent.child.get(node.parent.child.size()-1).equals(node)
-                        ? buildPrefix(node.parent).concat(BRANCH)
-                        : buildPrefix(node.parent).concat(END)
-                       : Util.repeat(LINE, node.depth)
+        String prefix = node.parent!=null || !node.parent.child.isEmpty()
+                      ? !node.parent.child.get(node.parent.child.size()-1).equals(node)
+                       ? buildPrefix(node.parent).concat(BRANCH)
+                       : buildPrefix(node.parent).concat(END)
                       : Util.repeat(LINE, node.depth);
         return prefix.concat(node.display);
     }
