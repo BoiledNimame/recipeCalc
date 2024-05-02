@@ -6,17 +6,19 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Test::makeCells",
+            "name": "Test::make64kCells(AE)",
             "request": "launch",
             "mainClass": "recipecalc.Main",
             "projectName": "recipecalc",
             "args": "-calc:64k:10"
+        },
+        {
+            "type": "java",
+            "name": "Test::make64kCells(RS)",
+            "request": "launch",
+            "mainClass": "recipecalc.Main",
+            "projectName": "recipecalc",
+            "args": "-calc:64k_Storage_Part:10"
         }
     ]
 }
