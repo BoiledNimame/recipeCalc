@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Test::make64kCells(AE)",
+            "name": "Test::make64kCells(AE) *10",
             "request": "launch",
             "mainClass": "recipecalc.Main",
             "projectName": "recipecalc",
@@ -14,11 +14,19 @@
         },
         {
             "type": "java",
-            "name": "Test::make64kCells(RS)",
+            "name": "Test::make64kCells(RS) *10",
             "request": "launch",
             "mainClass": "recipecalc.Main",
             "projectName": "recipecalc",
             "args": "-calc:64k_Storage_Part:10"
+        },
+        {
+            "type": "java",
+            "name": "Test::make64kCells(RS) *2",
+            "request": "launch",
+            "mainClass": "recipecalc.Main",
+            "projectName": "recipecalc",
+            "args": "-calc:64k_Storage_Part:2"
         }
     ]
 }
