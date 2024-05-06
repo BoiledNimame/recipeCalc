@@ -50,12 +50,10 @@ public class Tree {
 
     private String buildLine(LinkedNode node) {
         String prefix = !node.pos.equals(RecipePos.HEAD)
-                      ? node.parent.pos.equals(RecipePos.BODY)
                        ? Util.getLastElement(node.parent.child).equals(node)
                         ? buildPrefix(node.parent).concat(END)
                         : buildPrefix(node.parent).concat(BRANCH)
-                       : Util.repeat(LINE, node.depth)
-                      : Util.repeat(LINE, node.depth);
+                       : Util.repeat(LINE, node.depth);
 
         return prefix.concat(node.display);
     }
