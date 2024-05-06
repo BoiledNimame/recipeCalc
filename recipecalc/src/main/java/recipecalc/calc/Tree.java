@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import recipecalc.Util;
 import recipecalc.node.LinkedNode;
 import recipecalc.node.ResourceType;
+import recipecalc.node.LinkedNode.RecipePos;
 
 public class Tree {
     public static void printAsTree(LinkedNode origin) {
@@ -48,11 +49,11 @@ public class Tree {
     }
 
     private String buildLine(LinkedNode node) {
-        String prefix = node.parent!=null
-                      ? node.parent.child!=null
-                       ? !node.parent.child.get(node.parent.child.size()-1).equals(node)
-                        ? buildPrefix(node.parent).concat(BRANCH)
-                        : buildPrefix(node.parent).concat(END)
+        String prefix = !node.pos.equals(RecipePos.HEAD)
+                      ? node.parent.pos.equals(RecipePos.BODY)
+                       ? Util.getLastElement(node.parent.child).equals(node)
+                        ? buildPrefix(node.parent).concat(END)
+                        : buildPrefix(node.parent).concat(BRANCH)
                        : Util.repeat(LINE, node.depth)
                       : Util.repeat(LINE, node.depth);
 
