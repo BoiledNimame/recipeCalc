@@ -117,8 +117,25 @@ public class Tree {
      * 副産物の出力
      */
     private void printByProduct() {
-        System.out.println("ByProducts:");
-        prettyPrinter(origin, sortByValue(origin.consumableNode));
+        final Map<String, Long> processedMap = sortByValue(consumableFilter(origin, origin.consumableNode));
+        if (!processedMap.isEmpty()) {
+            System.out.println("ByProducts:");
+            prettyPrinter(origin, processedMap);
+        }
+    }
+
+    /**
+     * 入力をフィルタして適合しない要素を弾く
+     * @param targetProduct 主産物
+     * @param map 入力となるMapで、{@code <K, V>} -> ( {@link recipecalc.node.LinkedNode}.name
+     *            , Quantity)で構成される必要がある.
+     * @return 適合しない要素を含まないMap
+     */
+    private Map<String, Long> consumableFilter(LinkedNode targetProduct, Map<String, Long> map) {
+        return map.entrySet().stream()
+                .filter(e -> !e.getKey().equals(targetProduct.name))
+                .filter(e -> e.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k1, k2) -> k1));
     }
 
     /**
