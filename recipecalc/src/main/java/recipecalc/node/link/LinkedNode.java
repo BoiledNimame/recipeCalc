@@ -44,7 +44,7 @@ public class LinkedNode {
         consumableNode = new HashMap<>();
         final Node[] consumableByProduct = NodeLinker.getByProductFromResult(targetNode, resultNodes);
         for (int i = 0; i < consumableByProduct.length; i++) {
-            consumableNode.put(consumableByProduct[i].id, consumableByProduct[i].quantity);
+            consumableNode.put(consumableByProduct[i].name, consumableByProduct[i].quantity);
         }
         child = new ArrayList<>();
         NodeLinker.defineChild(this);
@@ -110,7 +110,7 @@ public class LinkedNode {
     public Node getNodeByName(String name) {
         return registedRecipes.entrySet().stream()
                                 .map(f -> Arrays.stream(f.getValue().getKey())
-                                    .filter(g -> g.id.equals(name))
+                                    .filter(g -> g.name.equals(name))
                                     .findFirst().orElse(null))
                                 .filter(p -> p!=null)
                                 .findFirst().orElseThrow(IllegalArgumentException::new);
@@ -133,17 +133,17 @@ public class LinkedNode {
     }
 
     public Node consume(Node node) {
-        if (this.consumableNode.containsKey(node.id)) {
-            final long consumableQuantity = this.consumableNode.get(node.id).longValue();
+        if (this.consumableNode.containsKey(node.name)) {
+            final long consumableQuantity = this.consumableNode.get(node.name).longValue();
             if (consumableQuantity < node.quantity) {
-                this.consumableNode.remove(node.id);
-                return new Node(node.id, node.type, node.quantity - consumableQuantity);
+                this.consumableNode.remove(node.name);
+                return new Node(node.name, node.type, node.quantity - consumableQuantity);
             } else if (consumableQuantity == node.quantity) {
-                this.consumableNode.remove(node.id);
-                return new Node(node.id, node.type, 0);
+                this.consumableNode.remove(node.name);
+                return new Node(node.name, node.type, 0);
             } else if (consumableQuantity > node.quantity) {
-                this.consumableNode.put(node.id, consumableQuantity - node.quantity);
-                return new Node(node.id, node.type, 0);
+                this.consumableNode.put(node.name, consumableQuantity - node.quantity);
+                return new Node(node.name, node.type, 0);
             } else {
                 throw new IllegalArgumentException();
             }
