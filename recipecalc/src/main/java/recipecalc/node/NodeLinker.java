@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import recipecalc.Util;
 import recipecalc.node.LinkedNode.RecipePos;
+import recipecalc.util.Util;
 
 public class NodeLinker {
     public static LinkedNode LinkNodeFromProblem(RecipeNode[] recipes, String targetName, int targetQuantity) {

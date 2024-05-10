@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import recipecalc.Util;
 import recipecalc.node.LinkedNode;
 import recipecalc.node.ResourceType;
 import recipecalc.node.LinkedNode.RecipePos;
+import recipecalc.util.Util;
 
 public class Tree {
     public static void printAsTree(LinkedNode origin) {

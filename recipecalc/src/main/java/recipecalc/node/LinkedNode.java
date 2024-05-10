@@ -2,7 +2,7 @@ package recipecalc.node;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 
-import recipecalc.Util;
+import recipecalc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
