@@ -171,7 +171,7 @@ public class Tree {
                     .append(" - ")
                     .append(entry.getKey())
                     .append(Util.repeat(SPACE, Math.toIntExact(longestKeylength - entry.getKey().length())))
-                    .append(node.getNodeByName(entry.getKey()).type.equals(ResourceType.Item) ? " x" : ":")
+                    .append(node.getNodeByName(entry.getKey()).type.equals(ResourceType.Item) ? " x" : " :")
                     .append(
                         node.getNodeByName(entry.getKey()).type.equals(ResourceType.Liquid)
                          || node.getNodeByName(entry.getKey()).type.equals(ResourceType.Gas)

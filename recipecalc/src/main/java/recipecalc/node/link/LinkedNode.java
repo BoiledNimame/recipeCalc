@@ -89,22 +89,23 @@ public class LinkedNode {
     }
 
     private static String displayBuilder(String baseName, ResourceType type, long quantity) {
-        String targetDisplay;
+        StringBuilder builder = new StringBuilder(baseName);
+        builder.append(" ");
         switch (type) {
             case Item:
-                targetDisplay = baseName.concat(" ").concat("x").concat(String.valueOf(quantity));
+                builder.append("x").append(String.valueOf(quantity));
                 break;
             case Liquid:
-                targetDisplay = baseName.concat(" ").concat(String.valueOf(quantity)).concat("mb");
+                builder.append(String.valueOf(quantity)).append("mb");
                 break;
             case Gas:
-                targetDisplay = baseName.concat(" ").concat(String.valueOf(quantity)).concat("mb");
+                builder.append(String.valueOf(quantity)).append("mb");
                 break;
             default:
-                targetDisplay = baseName.concat(" ").concat("x").concat(String.valueOf(quantity));
+                builder.append("x").append(String.valueOf(quantity));
                 break;
         }
-        return targetDisplay;
+        return builder.toString();
     }
 
     public Node getNodeByName(String name) {
