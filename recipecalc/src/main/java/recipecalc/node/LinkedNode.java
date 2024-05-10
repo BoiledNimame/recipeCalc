@@ -1,7 +1,6 @@
 package recipecalc.node;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-
+import recipecalc.util.ImmutablePair;
 import recipecalc.util.Util;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class LinkedNode {
     public final Map<String, Long> consumableNode;
     public final long craftCount;
 
-    private final Map<String, SimpleImmutableEntry<Node[], Node[]>> registedRecipes;
+    private final Map<String, ImmutablePair<Node[], Node[]>> registedRecipes;
 
     /**
      * make LinkedNode as HEAD
@@ -114,20 +113,20 @@ public class LinkedNode {
                                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
-    private Map<String, SimpleImmutableEntry<Node[], Node[]>> recipeMapper(RecipeNode[] recipes) {
-        final Map<String, SimpleImmutableEntry<Node[], Node[]>> mappedRecipe = new HashMap<>();
+    private Map<String, ImmutablePair<Node[], Node[]>> recipeMapper(RecipeNode[] recipes) {
+        final Map<String, ImmutablePair<Node[], Node[]>> mappedRecipe = new HashMap<>();
         for (int i = 0; i < recipes.length; i++) {
-            mappedRecipe.put(recipes[i].name, new SimpleImmutableEntry<Node[],Node[]>(recipes[i].ingredientNodes, recipes[i].resultNodes));
+            mappedRecipe.put(recipes[i].name, new ImmutablePair<Node[],Node[]>(recipes[i].ingredientNodes, recipes[i].resultNodes));
         }
         return mappedRecipe;
     }
 
-    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOs() {
+    public ImmutablePair<Node[], Node[]> getRecipeIOs() {
         return getRecipeIOsFromProductName(this.name);
     }
 
-    public SimpleImmutableEntry<Node[], Node[]> getRecipeIOsFromProductName(String name) {
-        return registedRecipes.containsKey(name) ? registedRecipes.get(name) : new SimpleImmutableEntry<>(new Node[0], new Node[0]);
+    public ImmutablePair<Node[], Node[]> getRecipeIOsFromProductName(String name) {
+        return registedRecipes.containsKey(name) ? registedRecipes.get(name) : new ImmutablePair<>(new Node[0], new Node[0]);
     }
 
     public Node consume(Node node) {
