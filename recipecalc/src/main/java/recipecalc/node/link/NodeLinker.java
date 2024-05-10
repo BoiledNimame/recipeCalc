@@ -1,4 +1,4 @@
-package recipecalc.node;
+package recipecalc.node.link;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import recipecalc.node.LinkedNode.RecipePos;
+import recipecalc.node.Node;
+import recipecalc.node.RecipeNode;
+import recipecalc.node.link.LinkedNode.RecipePos;
 import recipecalc.util.Util;
 
 public class NodeLinker {
@@ -59,7 +61,12 @@ public class NodeLinker {
         }
     }
 
+    /**
+     * 自身の子となるノードを追加する
+     * @param parent 親となるノード
+     */
     static void defineChild(LinkedNode parent) {
+        if (!parent.child.isEmpty()) { throw new UnsupportedOperationException(); } // 2回呼ばれないように
         if (parent.pos.equals(RecipePos.HEAD) | parent.pos.equals(RecipePos.BODY)) {
             // parentの素材として要求してくるアイテムの内訳
             final Node[] parentsIngredient = defineResult(parent.getRecipeIOs().getKey(), parent.craftCount);

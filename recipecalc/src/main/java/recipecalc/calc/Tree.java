@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import recipecalc.node.LinkedNode;
 import recipecalc.node.ResourceType;
-import recipecalc.node.LinkedNode.RecipePos;
+import recipecalc.node.link.LinkedNode;
+import recipecalc.node.link.LinkedNode.RecipePos;
 import recipecalc.util.Util;
 
 public class Tree {
@@ -127,7 +127,7 @@ public class Tree {
     /**
      * 入力をフィルタして適合しない要素を弾く
      * @param targetProduct 主産物
-     * @param map 入力となるMapで、{@code <K, V>} -> ( {@link recipecalc.node.LinkedNode}.name
+     * @param map 入力となるMapで、{@code <K, V>} -> ( {@link recipecalc.node.link.LinkedNode}.name
      *            , Quantity)で構成される必要がある.
      * @return 適合しない要素を含まないMap
      */

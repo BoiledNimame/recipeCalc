@@ -3,9 +3,9 @@ package recipecalc.calc;
 import java.util.Map;
 
 import recipecalc.loader.YamlParser;
-import recipecalc.node.LinkedNode;
-import recipecalc.node.NodeLinker;
 import recipecalc.node.RecipeNode;
+import recipecalc.node.link.LinkedNode;
+import recipecalc.node.link.NodeLinker;
 
 public class Calculator {
     public static void solveRecipe(Map<String, Object> map, String[] problem) {

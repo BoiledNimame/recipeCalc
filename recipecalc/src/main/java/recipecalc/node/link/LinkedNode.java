@@ -1,5 +1,8 @@
-package recipecalc.node;
+package recipecalc.node.link;
 
+import recipecalc.node.Node;
+import recipecalc.node.RecipeNode;
+import recipecalc.node.ResourceType;
 import recipecalc.util.ImmutablePair;
 import recipecalc.util.Util;
 
