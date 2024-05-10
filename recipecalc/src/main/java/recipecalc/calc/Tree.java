@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import recipecalc.node.ResourceType;
 import recipecalc.node.link.LinkedNode;
-import recipecalc.node.link.LinkedNode.RecipePos;
+import recipecalc.node.link.RecipePos;
 import recipecalc.util.Util;
 
 public class Tree {

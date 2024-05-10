@@ -155,9 +155,4 @@ public class LinkedNode {
     public boolean equals(LinkedNode node) {
         return this.uuid.equals(node.uuid);
     }
-
-    public enum RecipePos {
-        HEAD,BODY,TAIL;
-        RecipePos() {}
-    }
 }

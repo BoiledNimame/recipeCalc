@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 
 import recipecalc.node.Node;
 import recipecalc.node.RecipeNode;
-import recipecalc.node.link.LinkedNode.RecipePos;
 import recipecalc.util.Util;
 
 public class NodeLinker {
