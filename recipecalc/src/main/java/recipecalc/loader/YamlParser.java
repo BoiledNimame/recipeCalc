@@ -6,7 +6,7 @@ import java.util.List;
 
 import recipecalc.node.Node;
 import recipecalc.node.RecipeNode;
-import recipecalc.node.ResourceType;
+import recipecalc.node.UnitType;
 
 public class YamlParser {
     private final static String display = "display";
@@ -44,7 +44,7 @@ public class YamlParser {
             @SuppressWarnings("unchecked")
             final List<List<String>> recipes = (List<List<String>>) map.get(recipe);
             final Map<String, Integer> requireItems = new LinkedHashMap<>();
-            
+
             for (int i = 0; i < recipes.size(); i++) {
                 final int currentLineLength = recipes.get(i).size();
                 for (int j = 0; j < currentLineLength; j++) {
@@ -107,24 +107,24 @@ public class YamlParser {
     }
 
     private static Node nodeBuilder(Map<String, Object> map, String key, int value) {
-        ResourceType rType;
+        UnitType rType;
         if (map.containsKey(type)) {
             switch ((String) map.get(type)) {
                 case "item":
-                    rType = ResourceType.Item;
+                    rType = UnitType.Item;
                     break;
                 case "liquid":
-                    rType = ResourceType.Liquid;
+                    rType = UnitType.Liquid;
                     break;
                 case "gas":
-                    rType = ResourceType.Gas;
+                    rType = UnitType.Gas;
                     break;
                 default:
-                    rType = ResourceType.Item;
+                    rType = UnitType.Item;
                     break;
             }
         } else {
-            rType = ResourceType.Item;
+            rType = UnitType.Item;
         }
         return new Node(key, rType, value);
     }

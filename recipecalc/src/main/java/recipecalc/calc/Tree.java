@@ -4,10 +4,12 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import recipecalc.node.ResourceType;
+import recipecalc.node.Node;
+import recipecalc.node.UnitType;
 import recipecalc.node.link.LinkedNode;
 import recipecalc.node.link.RecipePos;
 import recipecalc.util.Util;
@@ -24,7 +26,7 @@ public class Tree {
         this.origin = origin;
         primaryResource = new HashMap<>();
     }
-    
+
     static final String LINE = "│";
     static final String BRANCH = "├";
     static final String END = "└";
@@ -38,7 +40,7 @@ public class Tree {
      * 展開開始
      */
     private void branch() {
-        System.out.println("Trees:");
+        System.out.println("TreeView:");
         branch(origin);
     }
 
@@ -47,7 +49,7 @@ public class Tree {
      * @param node {@code pos.equals(RecipePos.HEAD) -> true}である, 全ての親となるノード
      */
     private void branch(LinkedNode node) {
-        System.out.println(buildLine(node));
+        System.out.println(buildTreeViewLine(node));
         if (node.child.isEmpty()) {
             addPrimaryResource(node);
         } else {
@@ -62,11 +64,11 @@ public class Tree {
      * @param node 出力対象のノード
      * @return 適切な罫線が行頭に付与された, ノードの内容を表す文字列
      */
-    private String buildLine(LinkedNode node) {
+    private String buildTreeViewLine(LinkedNode node) {
         String prefix = !node.pos.equals(RecipePos.HEAD)
                        ? isLastElement(node)
-                        ? buildPrefix(node.parent).concat(END)
-                        : buildPrefix(node.parent).concat(BRANCH)
+                        ? buildTreeViewPrefix(node.parent).concat(END)
+                        : buildTreeViewPrefix(node.parent).concat(BRANCH)
                        : EMPTY;
         return prefix.concat(node.display);
     }
@@ -76,18 +78,17 @@ public class Tree {
      * @param parent 罫線を付与する対象の親となるノード
      * @return 罫線部分
      */
-    private String buildPrefix(LinkedNode parent) {
+    private String buildTreeViewPrefix(LinkedNode parent) {
         return !parent.pos.equals(RecipePos.HEAD)
-             ? buildPrefix(parent.parent).concat(isLastElement(parent) ? SPACE : LINE)
+             ? buildTreeViewPrefix(parent.parent).concat(isLastElement(parent) ? SPACE : LINE)
              : EMPTY;
     }
 
     /**
      * @return 引数ノードが自身の属する子リストの最後尾であるかどうかを判断する
-     * @throws NullPointerException 親を持たない, つまり{@code node.pos.equals(RecipePos.HEAD) -> true}ならエラー
      */
     private boolean isLastElement(LinkedNode node) {
-        return Util.getLastElement(node.parent.child).equals(node);
+        return Objects.nonNull(node) & !node.pos.equals(RecipePos.HEAD) ? Util.getLastElement(node.parent.child).equals(node) : false;
     }
 
     /**
@@ -151,36 +152,56 @@ public class Tree {
     }
 
     /**
-     * Yamlなどでみられる配列表記のようにして, Mapを出力する
+     * Yamlなどでみられる表記のよう(Pretty-Print)にして, Mapを出力する
      * @param node {@code pos.equals(RecipePos.HEAD) -> true}である, 全ての親となるノード
      * @param map 出力したいリソースを{@code (名称, 個数)}でまとめたMap
      */
     private void prettyPrinter(LinkedNode node, Map<String, Long> map) {
+
         final long longestKeylength = map.entrySet().stream()
             .filter(f -> !f.getKey().equals(node.name))
             .map(m -> m.getKey().length())
             .max(Comparator.naturalOrder()).get();
+
         final long longestValuelength = map.entrySet().stream()
             .filter(f -> !f.getKey().equals(node.name))
             .map(m -> String.valueOf(m.getValue()).length())
             .max(Comparator.naturalOrder()).get();
+
         for (Entry<String, Long> entry : map.entrySet()) {
+
             if (!entry.getKey().equals(node.name) && entry.getValue()!=0) {
-                System.out.println(
-                    new StringBuilder()
-                    .append(" - ")
-                    .append(entry.getKey())
-                    .append(Util.repeat(SPACE, Math.toIntExact(longestKeylength - entry.getKey().length())))
-                    .append(node.getNodeByName(entry.getKey()).type.equals(ResourceType.Item) ? " x" : " :")
-                    .append(
-                        node.getNodeByName(entry.getKey()).type.equals(ResourceType.Liquid)
-                         || node.getNodeByName(entry.getKey()).type.equals(ResourceType.Gas)
-                         ? String.valueOf(entry.getValue()).concat("mb")
-                         : Util.repeat(SPACE, Math.toIntExact(longestValuelength - String.valueOf(entry.getValue()).length()))
-                           .concat(String.valueOf(entry.getValue())))
-                    .toString()
-                );
+
+                final String name = entry.getKey();
+                final long quantity = entry.getValue();
+                final Node currentNode = node.getNodeByName(name);
+
+                System.out.println(buildLineWithQuantity(" - ", name, currentNode.type, quantity, longestKeylength, longestValuelength));
             }
         }
+    }
+
+    /**
+     * 特定のについて整列されたテキストを出力させるためのメソッド
+     * @param prefix                前置する文字列.
+     * @param name                  対象の名前を表す文字列.
+     * @param type                  対象のタイプ(単位).
+     * @param quantity              対象の個数.
+     * @param nameSectionLength     名前部分の長さ.
+     * @param quantitySectionLength 個数部分の長さ.
+     * @return 整列, 結合済みテキスト.
+     */
+    private static String buildLineWithQuantity(String prefix, String name, UnitType type, long quantity, long nameSectionLength, long quantitySectionLength) {
+        return new StringBuilder()
+            .append(prefix)
+            .append(name)
+            .append(Util.repeat(SPACE, Math.toIntExact(nameSectionLength - name.length())))
+            .append(type.equals(UnitType.Item) ? " x" : " :")
+            .append(
+                type.equals(UnitType.Liquid) || type.equals(UnitType.Gas)
+                 ? String.valueOf(quantity).concat("mb")
+                 : Util.repeat(SPACE, Math.toIntExact(quantitySectionLength - String.valueOf(quantity).length()))
+               .concat(String.valueOf(quantity))
+            ).toString();
     }
 }

@@ -1,10 +1,10 @@
 package recipecalc.node;
 
-public enum ResourceType {
+public enum UnitType {
     Item(),
     Liquid(),
     Gas();
 
-    ResourceType() {
+    UnitType() {
     }
 }

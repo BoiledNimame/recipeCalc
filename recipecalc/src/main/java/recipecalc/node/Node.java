@@ -2,10 +2,10 @@ package recipecalc.node;
 
 public class Node {
     public final String name;
-    public final ResourceType type;
+    public final UnitType type;
     public final long quantity;
-    
-    public Node(String id, ResourceType type, long quantity) {
+
+    public Node(String id, UnitType type, long quantity) {
         this.name = id;
         this.type = type;
         this.quantity = quantity;

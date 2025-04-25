@@ -2,7 +2,7 @@ package recipecalc.node.link;
 
 import recipecalc.node.Node;
 import recipecalc.node.RecipeNode;
-import recipecalc.node.ResourceType;
+import recipecalc.node.UnitType;
 import recipecalc.util.ImmutablePair;
 import recipecalc.util.Util;
 
@@ -88,7 +88,7 @@ public class LinkedNode {
         }
     }
 
-    private static String displayBuilder(String baseName, ResourceType type, long quantity) {
+    private static String displayBuilder(String baseName, UnitType type, long quantity) {
         StringBuilder builder = new StringBuilder(baseName);
         builder.append(" ");
         switch (type) {
